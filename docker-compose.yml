@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:17
+    container_name: frame_management_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: frame_management_web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
+      DATABASE_URL: ${DATABASE_URL}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    volumes:
+      - ./app:/rails/app
+      - ./config:/rails/config
+      - ./db:/rails/db
+      - ./lib:/rails/lib
+      - ./public:/rails/public
+      - ./spec:/rails/spec
+      - ./Gemfile:/rails/Gemfile
+      - ./Gemfile.lock:/rails/Gemfile.lock
+      - ./Rakefile:/rails/Rakefile
+      - ./config.ru:/rails/config.ru
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ./bin/rails server -b 0.0.0.0
+volumes:
+  postgres_data: 
