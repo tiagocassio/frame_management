@@ -16,7 +16,7 @@ gem 'thruster', require: false # Add HTTP asset caching/compression and X-Sendfi
 gem 'rack-cors' # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem 'rswag-api' # Rswag extends rspec-rails "request specs" with a Swagger-based DSL for describing and testing API operations.
 gem 'rswag-ui' # Rswag extends rspec-rails "request specs" with a Swagger-based DSL for describing and testing API operations.
-gem 'rails-i18n', '~> 8.0.0' # Centralization of locale data collection for Ruby on Rails. See [https://github.com/svenfuchs/rails-i18n]
+gem 'rails-i18n', '~> 8.0.2' # Centralization of locale data collection for Ruby on Rails. See [https://github.com/svenfuchs/rails-i18n]
 gem 'ruby-units' # The 'Ruby units' gem is designed to simplify the handling of units for scientific calculations. See [https://github.com/olbrich/ruby-units]
 
 group :development, :test do
